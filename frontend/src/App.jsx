@@ -13,7 +13,6 @@ import ProblemsPage from "./pages/ProblemsPage";
 import ProblemDetailPage from "./pages/ProblemDetailPage";
 import SubmissionsPage from "./pages/SubmissionsPage";
 import AdminProblemsPage from "./pages/AdminProblemsPage";
-import LearningPage from "./pages/LearningPage";
 import CodingPage from "./pages/CodingPage";
 import CodingEditor from "./pages/CodingEditor";
 
@@ -108,16 +107,6 @@ const App = () => (
         <ProtectedRoute>
           <AppLayout>
             <SubmissionsPage />
-          </AppLayout>
-        </ProtectedRoute>
-      }
-    />
-    <Route
-      path="/learning"
-      element={
-        <ProtectedRoute>
-          <AppLayout>
-            <LearningPage />
           </AppLayout>
         </ProtectedRoute>
       }

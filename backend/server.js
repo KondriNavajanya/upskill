@@ -12,7 +12,6 @@ import problemRoutes from "./routes/problemRoutes.js";
 import submissionRoutes from "./routes/submissionRoutes.js";
 import contestRoutes from "./routes/contestRoutes.js";
 import discussionRoutes from "./routes/discussionRoutes.js";
-import learningRoutes from "./routes/learningRoutes.js";
 import codingRoutes from "./routes/codingRoutes.js";
 
 dotenv.config();
@@ -59,7 +58,6 @@ app.use("/api/problems", problemRoutes);
 app.use("/api/submissions", submissionRoutes);
 app.use("/api/contests", contestRoutes);
 app.use("/api/discussions", discussionRoutes);
-app.use("/api/learn", learningRoutes);
 app.use("/api/coding", codingRoutes);
 
 app.use(notFound);
