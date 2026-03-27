@@ -14,6 +14,8 @@ import ProblemDetailPage from "./pages/ProblemDetailPage";
 import SubmissionsPage from "./pages/SubmissionsPage";
 import AdminProblemsPage from "./pages/AdminProblemsPage";
 import LearningPage from "./pages/LearningPage";
+import CodingPage from "./pages/CodingPage";
+import CodingEditor from "./pages/CodingEditor";
 
 const AppLayout = ({ children }) => (
   <div className="page-shell px-4 py-4 sm:px-6 lg:px-8">
@@ -117,6 +119,24 @@ const App = () => (
           <AppLayout>
             <LearningPage />
           </AppLayout>
+        </ProtectedRoute>
+      }
+    />
+    <Route
+      path="/coding"
+      element={
+        <ProtectedRoute>
+          <AppLayout>
+            <CodingPage />
+          </AppLayout>
+        </ProtectedRoute>
+      }
+    />
+    <Route
+      path="/coding-editor/:problemId"
+      element={
+        <ProtectedRoute>
+          <CodingEditor />
         </ProtectedRoute>
       }
     />
