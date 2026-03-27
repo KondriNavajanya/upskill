@@ -11,6 +11,7 @@ const AuthPage = ({ mode = "login" }) => {
     email: "",
     password: "",
     institution: "",
+    role: "student",
     remember: false
   });
   const [showPassword, setShowPassword] = useState(false);
@@ -113,6 +114,15 @@ const AuthPage = ({ mode = "login" }) => {
                   value={form.institution}
                   onChange={(event) => setForm({ ...form, institution: event.target.value })}
                 />
+                <select
+                  className="input"
+                  value={form.role}
+                  onChange={(event) => setForm({ ...form, role: event.target.value })}
+                  required
+                >
+                  <option value="student">Student</option>
+                  <option value="admin">Admin</option>
+                </select>
               </>
             )}
             <input

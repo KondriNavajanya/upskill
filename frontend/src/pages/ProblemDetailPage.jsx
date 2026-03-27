@@ -88,6 +88,13 @@ const ProblemDetailPage = () => {
     Hard: "text-red-600 dark:text-red-400"
   };
 
+  const constraintsList = Array.isArray(problem.constraints)
+    ? problem.constraints
+    : String(problem.constraints || "")
+        .split("\n")
+        .map((constraint) => constraint.trim())
+        .filter(Boolean);
+
   return (
     <div className="space-y-6">
       {/* Problem Header */}
@@ -175,11 +182,11 @@ const ProblemDetailPage = () => {
                   </p>
                 </div>
 
-                {problem.constraints?.length > 0 && (
+                {constraintsList.length > 0 && (
                   <div>
                     <h3 className="font-semibold text-slate-900 dark:text-white">Constraints</h3>
                     <ul className="mt-2 space-y-1 text-sm text-slate-700 dark:text-slate-300">
-                      {problem.constraints.map((constraint, i) => (
+                      {constraintsList.map((constraint, i) => (
                         <li key={i}>• {constraint}</li>
                       ))}
                     </ul>

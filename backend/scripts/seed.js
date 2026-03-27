@@ -26,6 +26,7 @@ const runSeed = async () => {
     email: "demo@student.ai",
     password,
     institution: "Hackathon Institute",
+    isAdmin: true,
     badges: [{ name: "Fast Starter", reason: "Completed onboarding" }]
   });
 

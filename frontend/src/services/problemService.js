@@ -71,3 +71,28 @@ export const getCareerPath = async () => {
   const { data } = await api.post("/ai/career-path");
   return data;
 };
+
+export const createProblemAdmin = async (payload) => {
+  const { data } = await api.post("/problems", payload);
+  return data;
+};
+
+export const updateProblemAdmin = async (id, payload) => {
+  const { data } = await api.put(`/problems/${id}`, payload);
+  return data;
+};
+
+export const deleteProblemAdmin = async (id) => {
+  const { data } = await api.delete(`/problems/${id}`);
+  return data;
+};
+
+export const bulkUploadProblems = async (problems) => {
+  const { data } = await api.post("/problems/bulk", { problems });
+  return data;
+};
+
+export const generateProblemWithAI = async (payload) => {
+  const { data } = await api.post("/problems/generate", payload);
+  return data;
+};

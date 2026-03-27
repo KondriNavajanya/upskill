@@ -13,7 +13,7 @@ const testCaseSchema = new mongoose.Schema(
   {
     input: String,
     output: String,
-    isHidden: { type: Boolean, default: false }
+    hidden: { type: Boolean, default: false }
   },
   { _id: false }
 );
@@ -47,7 +47,7 @@ const problemSchema = new mongoose.Schema(
     },
     tags: [String],
     description: String,
-    constraints: [String],
+    constraints: String,
     examples: [exampleSchema],
     testCases: [testCaseSchema],
     starterCode: starterCodeSchema,
@@ -59,9 +59,17 @@ const problemSchema = new mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
       default: null
+    },
+    source: {
+      type: String,
+      enum: ["manual", "admin", "ai"],
+      default: "manual"
     }
   },
   { timestamps: true }
 );
+
+problemSchema.index({ difficulty: 1 });
+problemSchema.index({ tags: 1 });
 
 export default mongoose.model("Problem", problemSchema);

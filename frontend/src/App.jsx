@@ -2,6 +2,7 @@ import { Routes, Route, Navigate } from "react-router-dom";
 import Navbar from "./components/layout/Navbar";
 import Sidebar from "./components/layout/Sidebar";
 import ProtectedRoute from "./components/ProtectedRoute";
+import AdminRoute from "./components/AdminRoute";
 import AuthPage from "./pages/AuthPage";
 import BookmarksPage from "./pages/BookmarksPage";
 import DashboardPage from "./pages/DashboardPage";
@@ -11,6 +12,7 @@ import TestPage from "./pages/TestPage";
 import ProblemsPage from "./pages/ProblemsPage";
 import ProblemDetailPage from "./pages/ProblemDetailPage";
 import SubmissionsPage from "./pages/SubmissionsPage";
+import AdminProblemsPage from "./pages/AdminProblemsPage";
 
 const AppLayout = ({ children }) => (
   <div className="page-shell px-4 py-4 sm:px-6 lg:px-8">
@@ -105,6 +107,16 @@ const App = () => (
             <SubmissionsPage />
           </AppLayout>
         </ProtectedRoute>
+      }
+    />
+    <Route
+      path="/admin/problems"
+      element={
+        <AdminRoute>
+          <AppLayout>
+            <AdminProblemsPage />
+          </AppLayout>
+        </AdminRoute>
       }
     />
   </Routes>

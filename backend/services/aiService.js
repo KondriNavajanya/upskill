@@ -107,3 +107,81 @@ export const suggestCareer = async (scoresByTopic) => {
     return buildMockCareerSuggestion(scoresByTopic);
   }
 };
+
+const buildFallbackProblem = (topic, difficulty) => ({
+  title: `${topic} Fundamentals Challenge`,
+  difficulty,
+  tags: [topic, "Algorithms"],
+  description: `Given an input for ${topic}, compute and return the correct output according to the rules described in the problem statement.`,
+  constraints: "1 <= n <= 10^5",
+  examples: [
+    {
+      input: "5",
+      output: "5",
+      explanation: "Sample placeholder example."
+    },
+    {
+      input: "10",
+      output: "10",
+      explanation: "Another sample example."
+    },
+    {
+      input: "0",
+      output: "0",
+      explanation: "Handles edge cases."
+    }
+  ],
+  testCases: [
+    { input: "1", output: "1", hidden: false },
+    { input: "2", output: "2", hidden: false },
+    { input: "3", output: "3", hidden: false },
+    { input: "4", output: "4", hidden: true },
+    { input: "5", output: "5", hidden: true },
+    { input: "6", output: "6", hidden: true },
+    { input: "7", output: "7", hidden: true },
+    { input: "8", output: "8", hidden: true },
+    { input: "9", output: "9", hidden: true },
+    { input: "10", output: "10", hidden: true }
+  ],
+  starterCode: {
+    javascript: "function solve(input) {\n  return input;\n}",
+    python: "def solve(input):\n    return input",
+    cpp: "#include <bits/stdc++.h>\nusing namespace std;\n\nstring solve(string input) {\n    return input;\n}"
+  },
+  optimalSolution: "Use direct transformation in O(1) per operation.",
+  timeComplexity: "O(n)",
+  spaceComplexity: "O(1)"
+});
+
+export const generateProblemWithAI = async ({ topic, difficulty }) => {
+  if (!client) {
+    return buildFallbackProblem(topic, difficulty);
+  }
+
+  const prompt = `Generate a coding problem in JSON format.\n\nTopic: ${topic}\nDifficulty: ${difficulty}\n\nInclude:\n- title\n- description\n- constraints\n- 3 examples\n- 10 test cases (mark some hidden)\n- starter code (JavaScript, Python, C++)\n- optimal solution\n- time & space complexity`; 
+
+  try {
+    const response = await client.chat.completions.create({
+      model: "gpt-4o-mini",
+      response_format: { type: "json_object" },
+      messages: [
+        {
+          role: "system",
+          content:
+            "You generate high-quality coding interview problems. Return strict JSON only with keys: title, difficulty, tags, description, constraints, examples, testCases, starterCode, optimalSolution, timeComplexity, spaceComplexity."
+        },
+        {
+          role: "user",
+          content: prompt
+        }
+      ]
+    });
+
+    return tryParseJSON(
+      response.choices[0].message.content,
+      buildFallbackProblem(topic, difficulty)
+    );
+  } catch (error) {
+    return buildFallbackProblem(topic, difficulty);
+  }
+};

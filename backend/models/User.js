@@ -35,6 +35,11 @@ const userSchema = new mongoose.Schema(
       type: String,
       default: "student"
     },
+    isAdmin: {
+      type: Boolean,
+      default: false,
+      index: true
+    },
     avatar:
       {
         type: String,

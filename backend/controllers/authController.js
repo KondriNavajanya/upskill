@@ -8,7 +8,7 @@ const createToken = (id) =>
   jwt.sign({ id }, process.env.JWT_SECRET, { expiresIn: "7d" });
 
 export const registerUser = asyncHandler(async (req, res) => {
-  const { name, email, password, institution } = req.body;
+  const { name, email, password, institution, role } = req.body;
 
   if (!name || !email || !password) {
     return res.status(400).json({ message: "Name, email, and password are required" });
@@ -20,11 +20,15 @@ export const registerUser = asyncHandler(async (req, res) => {
   }
 
   const hashedPassword = await bcrypt.hash(password, 10);
+  const isAdmin = role === "admin" ? true : false;
+  
   const user = await User.create({
     name,
     email,
     password: hashedPassword,
-    institution
+    institution,
+    role: role || "student",
+    isAdmin
   });
 
   const leaderboard = await Leaderboard.create({ user: user._id });
@@ -36,6 +40,8 @@ export const registerUser = asyncHandler(async (req, res) => {
       name: user.name,
       email: user.email,
       institution: user.institution,
+      role: user.role,
+      isAdmin: user.isAdmin,
       darkMode: user.darkMode,
       leaderboard
     }
@@ -63,6 +69,7 @@ export const loginUser = asyncHandler(async (req, res) => {
       name: user.name,
       email: user.email,
       institution: user.institution,
+      isAdmin: user.isAdmin,
       darkMode: user.darkMode,
       avatar: user.avatar,
       leaderboard
