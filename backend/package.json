@@ -1,7 +1,22 @@
-"scripts": {
-  "start": "node server.js",
-  "build": "tsc"  
+{
+  "name": "ai-skill-platform-backend",
+  "version": "1.0.0",
+  "description": "Backend for AI-powered student skill platform",
+  "main": "server.js",
+  "type": "module",
+  "scripts": {
+    "dev": "nodemon server.js",
+    "start": "node server.js",
+    "seed": "node scripts/seed.js",
+    "seed:problems": "node seed/seedProblems.js"
+  },
+  "dependencies": {
+    "axios": "^1.6.5",
+    "bcryptjs": "^2.4.3",
+    ...
+  }
 }
+
 
 
 
