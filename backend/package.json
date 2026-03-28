@@ -1,3 +1,10 @@
+"scripts": {
+  "start": "node server.js",
+  "build": "tsc"   // or "babel src -d dist"
+}
+
+
+
 {
   "name": "ai-skill-platform-backend",
   "version": "1.0.0",
