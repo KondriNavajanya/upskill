@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ChevronRight, Code, Trophy, BarChart3 } from 'lucide-react';
-import axios from 'axios';
+import api from '../services/api';
 import StatCard from '../components/StatCard';
 
 const CodingPage = () => {
@@ -34,7 +34,7 @@ const CodingPage = () => {
   const fetchProblems = async (topic, difficulty) => {
     try {
       setLoading(true);
-      const response = await axios.get(`http://localhost:5000/api/coding/problems/${topic}/${difficulty}`);
+      const response = await api.get(`/coding/problems/${topic}/${difficulty}`);
       setProblems(response.data.problems || []);
     } catch (error) {
       console.error('Error fetching problems:', error);
@@ -46,7 +46,7 @@ const CodingPage = () => {
 
   const fetchStats = async (userId) => {
     try {
-      const response = await axios.get(`http://localhost:5000/api/coding/stats/${userId}`);
+      const response = await api.get(`/coding/stats/${userId}`);
       setStats(response.data.stats);
     } catch (error) {
       console.error('Error fetching stats:', error);

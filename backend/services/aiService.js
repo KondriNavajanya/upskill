@@ -153,6 +153,114 @@ const buildFallbackProblem = (topic, difficulty) => ({
   spaceComplexity: "O(1)"
 });
 
+const buildMockCodingExplanation = (problem) => {
+  const approaches = (problem.approaches || []).map((a) => ({
+    name: a.name,
+    intuition: a.description,
+    steps: [
+      `Restate the problem: what are you given, and what must you return?`,
+      `See why "${a.name}" applies: ${a.description}`,
+      `Walk through the first example slowly, tracking variables.`,
+      `State runtime: ${a.timeComplexity} time and ${a.spaceComplexity} extra space.`
+    ],
+    timeBest: a.timeComplexity,
+    timeWorst: a.timeComplexity,
+    timeAverage: a.timeComplexity,
+    space: a.spaceComplexity,
+    whenToUse: `Use this when ${a.description.charAt(0).toLowerCase()}${a.description.slice(1)}`,
+    pros: ["Concrete pattern you can reuse on similar problems"],
+    cons: ["May not be the only valid approach—compare tradeoffs below."]
+  }));
+
+  return {
+    title: problem.title,
+    coreIdeaBeginner: `${problem.coreIdea} If you are new, first ignore fancy jargon: write in your own words what pattern connects the examples.`,
+    approaches,
+    complexityNarrative: {
+      bestCase:
+        "Best case is when the input allows you to stop early—for example, already sorted data might let a two-pointer technique skip work. It is problem-specific.",
+      worstCase:
+        "Worst case is the tightest guarantee your algorithm needs: often when you must examine most of the input (e.g., every element once, or every pair). Match it to the slowest step in your loops.",
+      averageCase:
+        "Average case sits between the two when inputs are random or typical. For interviews, worst case is what usually matters unless the problem says otherwise."
+    },
+    realWorldExamples: [
+      {
+        title: "Where this shows up",
+        analogy:
+          "Search and counting problems appear in logs, recommendations, billing, and games—same loop/map ideas, different domain."
+      },
+      {
+        title: "Tiny mental picture",
+        analogy:
+          "Think of organizing a deck of cards or matching socks: you either scan everything (brute force) or keep a handy pile/hash so future checks are fast."
+      }
+    ],
+    beginnerTips: [
+      "Rewrite the rules as bullet points before coding.",
+      "Name variables after what they mean, not after algorithms you memorized.",
+      ...(problem.hints || []).slice(0, 3)
+    ],
+    commonMistakes: [
+      "Skipping constraints (empty input, negatives, duplicates).",
+      "Off-by-one errors in indices or loop bounds.",
+      "Returning the wrong shape (e.g., value vs index vs substring)."
+    ]
+  };
+};
+
+export const explainCodingProblem = async (problem, { userCode, language } = {}) => {
+  const fallback = buildMockCodingExplanation(problem);
+  if (!client) {
+    return { ...fallback, source: "static" };
+  }
+
+  const snippet = (userCode || "").trim().slice(0, 4000);
+  const sys = `You are a patient CS tutor for beginners. Respond ONLY with valid JSON (no markdown) using this shape:
+{
+  "title": string,
+  "coreIdeaBeginner": string (plain English, no prerequisites beyond arrays/loops/maps),
+  "approaches": [ { "name", "intuition", "steps": string[], "timeBest", "timeWorst", "timeAverage", "space", "whenToUse", "pros": string[], "cons": string[] } ],
+  "complexityNarrative": { "bestCase", "worstCase", "averageCase" } (each explains Big-O style thinking for THIS problem in simple words),
+  "realWorldExamples": [ { "title", "analogy" } ] (2-4 items tied to everyday or software scenarios),
+  "beginnerTips": string[],
+  "commonMistakes": string[]
+}
+Cover multiple approaches when relevant. Explain best vs worst time clearly for the main algorithm.`;
+
+  const user = `Problem title: ${problem.title}
+Difficulty: ${problem.difficulty}
+Topic: ${problem.topic}
+Description:
+${problem.description}
+Constraints: ${problem.constraints || "Not specified"}
+Known approaches from platform: ${JSON.stringify(problem.approaches || [])}
+Examples: ${JSON.stringify(problem.examples || [])}
+Student language: ${language || "not specified"}
+Student code (optional, may be incomplete):
+${snippet || "(none)"}
+
+Teach deeply; assume the reader has never seen this pattern before.`;
+
+  try {
+    const response = await client.chat.completions.create({
+      model: "gpt-4o-mini",
+      response_format: { type: "json_object" },
+      messages: [
+        { role: "system", content: sys },
+        { role: "user", content: user }
+      ]
+    });
+    const parsed = tryParseJSON(response.choices[0].message.content, null);
+    if (parsed && typeof parsed.coreIdeaBeginner === "string") {
+      return { ...parsed, source: "ai" };
+    }
+  } catch {
+    /* fall through */
+  }
+  return { ...fallback, source: "static" };
+};
+
 export const generateProblemWithAI = async ({ topic, difficulty }) => {
   if (!client) {
     return buildFallbackProblem(topic, difficulty);
