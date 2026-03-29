@@ -153,6 +153,7 @@ const buildFallbackProblem = (topic, difficulty) => ({
   spaceComplexity: "O(1)"
 });
 
+<<<<<<< HEAD
 const buildMockCodingExplanation = (problem) => {
   const approaches = (problem.approaches || []).map((a) => ({
     name: a.name,
@@ -261,6 +262,8 @@ Teach deeply; assume the reader has never seen this pattern before.`;
   return { ...fallback, source: "static" };
 };
 
+=======
+>>>>>>> 0c959f55f7376b656b437930be949e1c5d8c86a6
 export const generateProblemWithAI = async ({ topic, difficulty }) => {
   if (!client) {
     return buildFallbackProblem(topic, difficulty);

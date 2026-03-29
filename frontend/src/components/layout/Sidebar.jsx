@@ -5,6 +5,10 @@ import {
   Home,
   List,
   ShieldCheck,
+<<<<<<< HEAD
+=======
+  Sparkles,
+>>>>>>> 0c959f55f7376b656b437930be949e1c5d8c86a6
   UserCircle2
 } from "lucide-react";
 import { NavLink } from "react-router-dom";
@@ -12,8 +16,12 @@ import { useAuth } from "../../context/AuthContext";
 
 const links = [
   { to: "/dashboard", label: "Dashboard", icon: Home },
+<<<<<<< HEAD
   { to: "/coding", label: "Coding Lab", icon: Code2 },
   { to: "/test", label: "AI Test", icon: BookOpen },
+=======
+  { to: "/test", label: "AI Test Lab", icon: Sparkles },
+>>>>>>> 0c959f55f7376b656b437930be949e1c5d8c86a6
   { to: "/problems", label: "Problems", icon: Code2 },
   { to: "/submissions", label: "My Submissions", icon: List },
   { to: "/results", label: "Results", icon: BarChart3 },

@@ -13,8 +13,11 @@ import ProblemsPage from "./pages/ProblemsPage";
 import ProblemDetailPage from "./pages/ProblemDetailPage";
 import SubmissionsPage from "./pages/SubmissionsPage";
 import AdminProblemsPage from "./pages/AdminProblemsPage";
+<<<<<<< HEAD
 import CodingPage from "./pages/CodingPage";
 import CodingEditor from "./pages/CodingEditor";
+=======
+>>>>>>> 0c959f55f7376b656b437930be949e1c5d8c86a6
 
 const AppLayout = ({ children }) => (
   <div className="page-shell px-4 py-4 sm:px-6 lg:px-8">
@@ -112,6 +115,7 @@ const App = () => (
       }
     />
     <Route
+<<<<<<< HEAD
       path="/coding"
       element={
         <ProtectedRoute>
@@ -130,6 +134,8 @@ const App = () => (
       }
     />
     <Route
+=======
+>>>>>>> 0c959f55f7376b656b437930be949e1c5d8c86a6
       path="/admin/problems"
       element={
         <AdminRoute>

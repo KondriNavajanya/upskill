@@ -12,7 +12,10 @@ import problemRoutes from "./routes/problemRoutes.js";
 import submissionRoutes from "./routes/submissionRoutes.js";
 import contestRoutes from "./routes/contestRoutes.js";
 import discussionRoutes from "./routes/discussionRoutes.js";
+<<<<<<< HEAD
 import codingRoutes from "./routes/codingRoutes.js";
+=======
+>>>>>>> 0c959f55f7376b656b437930be949e1c5d8c86a6
 
 dotenv.config();
 connectDB();
@@ -23,9 +26,13 @@ const allowedOrigins = [
   process.env.CLIENT_URL,
   "http://localhost:5173",
   "http://localhost:5174",
+<<<<<<< HEAD
   "http://localhost:5175",
   "http://localhost:5176",
   "http://localhost:5177"
+=======
+  "http://localhost:5175"
+>>>>>>> 0c959f55f7376b656b437930be949e1c5d8c86a6
 ].filter(Boolean);
 
 app.use(
@@ -60,7 +67,10 @@ app.use("/api/problems", problemRoutes);
 app.use("/api/submissions", submissionRoutes);
 app.use("/api/contests", contestRoutes);
 app.use("/api/discussions", discussionRoutes);
+<<<<<<< HEAD
 app.use("/api/coding", codingRoutes);
+=======
+>>>>>>> 0c959f55f7376b656b437930be949e1c5d8c86a6
 
 app.use(notFound);
 app.use(errorHandler);
